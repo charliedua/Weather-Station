@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 @app.route('/')
 def index():
-    return "Welcome to the Weather API!"
+    return "Welcome to the Weather API! Add more stuff in here? potentially what endpoints to use?"
 
 @app.route('/logs')
 def logs():
