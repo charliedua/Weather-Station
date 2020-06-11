@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Monitoring System Mission Control</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="shortcut icon" type="image/x-icon" href="/images/WeatherStation_icon.svg" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.4"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            <img src="/images/WeatherStation_icon.svg" width="30" height="30" class="d-inline-block align-top" alt="Weather Station icon">
+            Kitchen Monitoring
+        </a>
+    </nav>
+    <div class="container">
+        <h1>Kitchen Monitoring System</h1>
+        <hr />
+
+        <form id="form-thresh" action="#">
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="temp_threshold">Temprature threshold</label>
+                        <input class="form-control form-control-sm" type="number" min="-5" max="50" name="temp_threshold" id="temp_threshold" placeholder="threshold in °C" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="humidity_threshold">Humidity threshold</label>
+                        <input class="form-control form-control-sm" type="number" min="5" max="90" name="humidity_threshold" id="humidity_threshold" placeholder="threshold in %" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="light_threshold">Light Threshold</label>
+                        <input class="form-control form-control-sm" type="number" min="0" max="1023" name="light_threshold" id="light_threshold" placeholder="between 0 and 1023" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <input class="btn btn-dark btn-sm btn-outline-success" type="submit" name="submit" value="Update" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr />
+        <form id="main" action="#">
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="start_date">Start Date</label>
+                        <input class="form-control form-control-sm" type="date" name="start_date" id="start_date" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="start_time">Start Time</label>
+                        <input class="form-control form-control-sm" type="time" step="1" name="start_time" id="start_time" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="end_date">End Date</label>
+                        <input class="form-control form-control-sm" type="date" name="end_date" id="end_date" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="end_time">End Time</label>
+                        <input class="form-control form-control-sm" type="time" step="1" name="end_time" id="end_time" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <input class="btn btn-danger btn-sm" type="reset" value="Reset">
+                    <input class="btn btn-primary btn-sm" type="submit" name="submit" value="Submit">
+                </div>
+            </div>
+            <hr />
+            <div class="form-row">
+                <div class="col">
+                    Auto Refresh Data: <br />
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="autoRefresh" id="autorefresh-op-On" value="On">
+                        <label class="form-check-label" for="autorefresh-op-On">On</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="autoRefresh" id="autorefresh-op-Off" value="Off" checked>
+                        <label class="form-check-label" for="autorefresh-op-Off">Off</label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <hr />
+
+        <h2>Basic Stats</h2>
+        <div class="table-responsive">
+            <table id="Stats_Table" class="table table-bordered table-dark" style="width: 50%;">
+                <thead>
+                    <tr>
+                        <th scope="col">Factor</th>
+                        <th scope="col">Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Avg Temprature</th>
+                        <td>Current</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Max Temprature</th>
+                        <td>Current</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Min Temp</th>
+                        <td>Current</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Temprature Variance between the sensors</th>
+                        <td>Current</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Temprature Standard Deviation</th>
+                        <td>Current</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Avg Humidity</th>
+                        <td>Current</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Max Humidity</th>
+                        <td>Current</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Min Humidity</th>
+                        <td>Current</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr />
+        <canvas id="myTempChart"></canvas>
+        <canvas id="myHumidChart"></canvas>
+        <canvas id="myLightChart"></canvas>
+    </div>
+</body>
+<script src="script.js"></script>
+
+</html>
