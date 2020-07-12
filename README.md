@@ -1,7 +1,7 @@
 # Weather-Station
 
 ## Website
-Frontend can be accessed here at http://203.87.103.81/, which is being hosted by the raspberry Pi, contact Anmol/Charlie if you have issues going in.
+the website is not hosted anymore sorry for the inconvenience
 
 ## Sensors
 In our system, we make use of two temperature sensors, a humidity sensor and a light sensor. Data from these sensors is being sent to the Arduino to be processed by its Sketch.
